@@ -1,7 +1,6 @@
 package com.zamoiski.mastery_java.rest;
 
 
-import com.zamoiski.mastery_java.dao.EmployeeDAO;
 import com.zamoiski.mastery_java.entity.Employee;
 import com.zamoiski.mastery_java.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class EmployeeRestController {
 
-    @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeRestController(EmployeeService employeeService){
+        this.employeeService=employeeService;
+    }
 
     @GetMapping("/employees")
     public List<Employee> findAll(){
@@ -22,14 +25,8 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee findById(@PathVariable int employeeId){
-        Employee employee=employeeService.findById(employeeId);
-
-        if(employee==null){
-            throw new RuntimeException("Employee is not found - "+ employeeId);
-        }
-
-        return employee;
+    public Employee findById(@PathVariable long employeeId){
+        return employeeService.findById(employeeId);
     }
 
     @PostMapping("/employees")
@@ -49,13 +46,7 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public String deleteEmployee(@PathVariable int employeeId){
-        Employee employee=employeeService.findById(employeeId);
-
-        if(employee==null){
-            throw new RuntimeException("Employee is not found - "+ employeeId);
-        }
-
+    public String deleteEmployee(@PathVariable long employeeId){
         employeeService.deleteById(employeeId);
 
         return "Employee with id "+employeeId+" was deleted";

@@ -12,10 +12,13 @@ import java.util.List;
 @Repository
 public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
-    @Autowired
+
     private EntityManager entityManager;
 
-
+    @Autowired
+    public EmployeeDAOHibernateImpl(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
 
 
     @Override
@@ -26,19 +29,15 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
         Query<Employee> theQuery = currentSession.createQuery("from Employee",Employee.class);
 
-        List<Employee> employees=theQuery.getResultList();
-
-        return employees;
+        return theQuery.getResultList();
     }
 
     @Override
-    public Employee findById(int theId) {
+    public Employee findById(long theId) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
+        Session currentSession = entityManager.unwrap(Session.class);currentSession.get(Employee.class,theId);
 
-        Employee employee= currentSession.get(Employee.class,theId);
-
-        return employee;
+        return currentSession.get(Employee.class,theId);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    public void deleteById(int theId) {
+    public void deleteById(long theId) {
 
         Session currentSession = entityManager.unwrap(Session.class);
 

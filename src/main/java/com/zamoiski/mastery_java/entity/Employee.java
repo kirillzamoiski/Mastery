@@ -2,6 +2,7 @@ package com.zamoiski.mastery_java.entity;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="employee")
@@ -10,7 +11,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private int id;
+    private long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -19,7 +20,7 @@ public class Employee {
     private String lastName;
 
     @Column(name = "department_id")
-    private int departmentId;
+    private Integer departmentId;
 
     @Column(name = "job_title")
     private String jobTitle;
@@ -27,14 +28,13 @@ public class Employee {
     @Column(name = "gender")
     private String gender;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
-    public Employee(){
+    public Employee(){ }
 
-    }
-
-    public Employee(String firstName, String lastName, int departmentId, String jobTitle, String gender, String dateOfBirth) {
+    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, String gender, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
@@ -43,11 +43,11 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -67,11 +67,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public int getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(int departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -91,15 +91,13 @@ public class Employee {
         this.gender = gender;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
-    //define toString
 
     @Override
     public String toString() {
