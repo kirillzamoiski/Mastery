@@ -27,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Employee findById(long theId) {
+    public Employee findById(Long theId) {
         Employee employee=employeeDAO.findById(theId);
 
         if(employee==null){
@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public void deleteById(long theId) {
+    public void deleteById(Long theId) {
         if (employeeDAO.findById(theId)==null){
             throw new NotFoundException("Employee is not found - "+ theId);
         }

@@ -33,7 +33,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    public Employee findById(long theId) {
+    public Employee findById(Long theId) {
 
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -50,7 +50,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    public void deleteById(long theId) {
+    public void deleteById(Long theId) {
 
         Session currentSession = entityManager.unwrap(Session.class);
 

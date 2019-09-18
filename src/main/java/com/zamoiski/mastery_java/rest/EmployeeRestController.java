@@ -25,14 +25,12 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee findById(@PathVariable long employeeId){
+    public Employee findById(@PathVariable Long employeeId){
         return employeeService.findById(employeeId);
     }
 
     @PostMapping("/employees")
     public Employee addEmployee(@RequestBody Employee employee){
-        employee.setId(0);
-
         employeeService.save(employee);
 
         return employee;
@@ -46,7 +44,7 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public String deleteEmployee(@PathVariable long employeeId){
+    public String deleteEmployee(@PathVariable Long employeeId){
         employeeService.deleteById(employeeId);
 
         return "Employee with id "+employeeId+" was deleted";
