@@ -1,8 +1,9 @@
-package com.zamoiski.mastery_java.rest;
+package com.zamoiski.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zamoiski.mastery_java.entity.Employee;
-import com.zamoiski.mastery_java.service.EmployeeService;
+import com.zamoiski.model.Employee;
+import com.zamoiski.service.EmployeeRestController;
+import com.zamoiski.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

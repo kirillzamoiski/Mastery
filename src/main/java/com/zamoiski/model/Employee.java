@@ -1,4 +1,4 @@
-package com.zamoiski.mastery_java.entity;
+package com.zamoiski.model;
 
 
 import javax.persistence.*;

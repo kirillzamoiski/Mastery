@@ -1,8 +1,8 @@
-package com.zamoiski.mastery_java.service;
+package com.zamoiski.service;
 
-import com.zamoiski.mastery_java.dao.EmployeeDAO;
-import com.zamoiski.mastery_java.entity.Employee;
-import com.zamoiski.mastery_java.error.NotFoundException;
+import com.zamoiski.dao.EmployeeDAO;
+import com.zamoiski.model.Employee;
+import com.zamoiski.service.error.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,15 +77,11 @@ class EmployeeServiceImplTest {
 
     @Test
     void testNotFoundIdDelete(){
-        assertThrows(NotFoundException.class,() ->{
-            service.deleteById(null);
-        });
+        assertThrows(NotFoundException.class,() -> service.deleteById(null));
     }
 
     @Test
     void testNotFoundId(){
-        assertThrows(NotFoundException.class,() ->{
-            service.findById(null);
-        });
+        assertThrows(NotFoundException.class,() -> service.findById(null));
     }
 }

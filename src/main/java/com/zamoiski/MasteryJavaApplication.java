@@ -1,4 +1,4 @@
-package com.zamoiski.mastery_java;
+package com.zamoiski;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

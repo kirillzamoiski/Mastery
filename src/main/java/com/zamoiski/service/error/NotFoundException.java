@@ -1,4 +1,4 @@
-package com.zamoiski.mastery_java.error;
+package com.zamoiski.service.error;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

@@ -1,8 +1,8 @@
-package com.zamoiski.mastery_java.service;
+package com.zamoiski.service;
 
-import com.zamoiski.mastery_java.dao.EmployeeDAO;
-import com.zamoiski.mastery_java.entity.Employee;
-import com.zamoiski.mastery_java.error.NotFoundException;
+import com.zamoiski.dao.EmployeeDAO;
+import com.zamoiski.model.Employee;
+import com.zamoiski.service.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

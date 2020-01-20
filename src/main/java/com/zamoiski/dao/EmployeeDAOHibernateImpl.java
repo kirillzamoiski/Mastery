@@ -1,6 +1,6 @@
-package com.zamoiski.mastery_java.dao;
+package com.zamoiski.dao;
 
-import com.zamoiski.mastery_java.entity.Employee;
+import com.zamoiski.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;

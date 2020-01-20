@@ -1,4 +1,4 @@
-package com.zamoiski.mastery_java;
+package com.zamoiski;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

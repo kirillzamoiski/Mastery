@@ -1,9 +1,8 @@
-package com.zamoiski.mastery_java.rest;
+package com.zamoiski.service;
 
 
-import com.zamoiski.mastery_java.entity.Employee;
-import com.zamoiski.mastery_java.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zamoiski.model.Employee;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class EmployeeRestController {
 
     private EmployeeService employeeService;
 
-    @Autowired
     public EmployeeRestController(EmployeeService employeeService){
         this.employeeService=employeeService;
     }
@@ -44,9 +42,9 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public String deleteEmployee(@PathVariable Long employeeId){
+    public ResponseEntity<Object> deleteEmployee(@PathVariable Long employeeId){
         employeeService.deleteById(employeeId);
-
-        return "Employee with id "+employeeId+" was deleted";
+        return ResponseEntity.ok().build();
+       // return "Employee with id "+employeeId+" was deleted";
     }
 }
