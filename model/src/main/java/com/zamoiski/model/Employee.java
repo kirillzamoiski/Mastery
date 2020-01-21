@@ -1,7 +1,7 @@
 package com.zamoiski.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="employee")
@@ -27,14 +27,13 @@ public class Employee {
     @Column(name = "gender")
     private String gender;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     public Employee(){ }
 
 
-    public Employee(Long id, String firstName, String lastName, Integer departmentId, String jobTitle, String gender, Date dateOfBirth) {
+    public Employee(Long id, String firstName, String lastName, Integer departmentId, String jobTitle, String gender, LocalDate dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +43,7 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, String gender, Date dateOfBirth) {
+    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, String gender, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
@@ -101,11 +100,11 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }
