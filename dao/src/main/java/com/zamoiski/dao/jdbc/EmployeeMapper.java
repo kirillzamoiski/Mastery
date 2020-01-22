@@ -1,6 +1,5 @@
 package com.zamoiski.dao.jdbc;
 
-import com.zamoiski.model.Department;
 import com.zamoiski.model.Employee;
 import com.zamoiski.model.JobTitle;
 import org.springframework.jdbc.core.RowMapper;

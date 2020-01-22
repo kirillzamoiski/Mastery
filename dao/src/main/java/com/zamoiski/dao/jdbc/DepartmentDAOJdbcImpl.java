@@ -2,8 +2,6 @@ package com.zamoiski.dao.jdbc;
 
 import com.zamoiski.dao.DepartmentDAO;
 import com.zamoiski.model.Department;
-import com.zamoiski.model.Employee;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
