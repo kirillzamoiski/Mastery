@@ -2,6 +2,7 @@ package com.zamoiski.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="employee")
@@ -18,38 +19,40 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "department_id")
-    private Integer departmentId;
-
-    @Column(name = "job_title")
-    private String jobTitle;
+    @Column(name = "job_name")
+    private JobTitle jobTitle;
 
     @Column(name = "gender")
     private String gender;
 
     @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
+    private LocalDateTime dateOfBirth;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinColumn(name="department_id")
+    private Department department;
 
     public Employee(){ }
 
 
-    public Employee(Long id, String firstName, String lastName, Integer departmentId, String jobTitle, String gender, LocalDate dateOfBirth) {
+    public Employee(Long id, String firstName, String lastName, JobTitle jobTitle, String gender, LocalDateTime dateOfBirth, Department department) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.department = department;
     }
 
-    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, String gender, LocalDate dateOfBirth) {
+    public Employee(String firstName, String lastName, JobTitle  jobTitle, String gender, LocalDateTime dateOfBirth, Department department) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.department = department;
     }
 
     public Long getId() {
@@ -76,19 +79,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getJobTitle() {
+    public JobTitle getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle) {
+    public void setJobTitle(JobTitle jobTitle) {
         this.jobTitle = jobTitle;
     }
 
@@ -100,11 +95,19 @@ public class Employee {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    public LocalDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,16 +18,16 @@ import java.util.Map;
 @Primary
 public class EmployeeDAOJdbcImpl implements EmployeeDAO {
 
-    private static final String INSERT = "INSERT INTO employee(first_name, last_name, department_id, job_title, gender, date_of_birth) " +
-            " values(:firstName,:lastName,:departmentId,:jobTitle,:gender,:dateOfBirth)";
+    private static final String INSERT = "INSERT INTO employee(first_name, last_name, job_name, gender, date_of_birth, department_id) " +
+            " values(:firstName,:lastName,:jobTitle,:gender,:dateOfBirth,:departmentId)";
     private static final String SELECT_ALL = "select * from employee";
     private static final String FIND_BY_ID = "select * from employee where employee_id = :id";
     private static final String DELETE_BY_ID = "delete * from employee where employee_id = :id";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public EmployeeDAOJdbcImpl(JdbcTemplate jdbcTemplate) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+    public EmployeeDAOJdbcImpl(DataSource dataSource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class EmployeeDAOJdbcImpl implements EmployeeDAO {
     @Override
     public Employee findById(Long theId) {
         SqlParameterSource namedParameters = new MapSqlParameterSource("theId",Long.valueOf(theId));
-        return (Employee) namedParameterJdbcTemplate.queryForObject(FIND_BY_ID, namedParameters, new EmployeeMapper());
+        return namedParameterJdbcTemplate.queryForObject(FIND_BY_ID, namedParameters, new EmployeeMapper());
     }
 
     @Override
@@ -45,10 +46,10 @@ public class EmployeeDAOJdbcImpl implements EmployeeDAO {
         Map namedParameters = new HashMap();
         namedParameters.put("firstName",employee.getFirstName());
         namedParameters.put("lastName",employee.getLastName());
-        namedParameters.put("departmentId",employee.getDepartmentId());
         namedParameters.put("jobTitle",employee.getJobTitle());
         namedParameters.put("gender",employee.getGender());
         namedParameters.put("dateOfBirth",employee.getDateOfBirth());
+        namedParameters.put("departmentId",employee.getDepartment().getId());
         namedParameterJdbcTemplate.update(INSERT,namedParameters);
 
     }
