@@ -1,6 +1,5 @@
 package com.zamoiski;
 
-
 import com.zamoiski.model.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +44,5 @@ public class EmployeeRestController {
     public ResponseEntity<Object> deleteEmployee(@PathVariable Long employeeId){
         employeeService.deleteById(employeeId);
         return ResponseEntity.ok().build();
-       // return "Employee with id "+employeeId+" was deleted";
     }
 }

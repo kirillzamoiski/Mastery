@@ -24,6 +24,13 @@ public class Department {
     @Column(name = "date_of_create")
     private LocalDateTime dateOfCreate;
 
+
+    public Department(Long id,String name, LocalDateTime dateOfCreate) {
+        this.id = id;
+        this.name = name;
+        this.dateOfCreate = dateOfCreate;
+    }
+
     public Department(String name, LocalDateTime dateOfCreate) {
         this.name = name;
         this.dateOfCreate = dateOfCreate;

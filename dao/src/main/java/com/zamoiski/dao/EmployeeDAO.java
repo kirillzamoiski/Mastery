@@ -1,6 +1,7 @@
 package com.zamoiski.dao;
 
 import com.zamoiski.model.Employee;
+
 import java.util.List;
 
 public interface EmployeeDAO {
