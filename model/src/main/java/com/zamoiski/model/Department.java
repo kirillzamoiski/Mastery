@@ -1,6 +1,10 @@
 package com.zamoiski.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +18,32 @@ public class Department {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "department_name")
+    @NotNull(message = "First Name should not be empty")
+    @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
+    private String department_name;
 
-    @OneToMany(mappedBy = "department" , cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "department" , cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
 
     @Column(name = "date_of_create")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfCreate;
 
 
-    public Department(Long id,String name, LocalDateTime dateOfCreate) {
+    public Department(Long id,String department_name, LocalDateTime dateOfCreate) {
         this.id = id;
-        this.name = name;
+        this.department_name = department_name;
         this.dateOfCreate = dateOfCreate;
     }
 
-    public Department(String name, LocalDateTime dateOfCreate) {
-        this.name = name;
+    public Department(String department_name, LocalDateTime dateOfCreate) {
+        this.department_name = department_name;
         this.dateOfCreate = dateOfCreate;
+    }
+
+    public Department(Long id){
+        this.id = id;
     }
 
     public Department() {
@@ -48,11 +58,11 @@ public class Department {
     }
 
     public String getName() {
-        return name;
+        return department_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String department_name) {
+        this.department_name = department_name;
     }
 
     public List<Employee> getEmployees() {

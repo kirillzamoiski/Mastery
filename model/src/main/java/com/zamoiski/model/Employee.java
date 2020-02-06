@@ -1,7 +1,10 @@
 package com.zamoiski.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name="employee")
@@ -13,22 +16,30 @@ public class Employee {
     private Long id;
 
     @Column(name = "first_name")
+    @NotNull(message = "First Name should not be empty")
+    @NotEmpty(message = "First Name should not be empty")
+    @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
     private String firstName;
 
     @Column(name = "last_name")
+    @NotNull(message = "Last Name should not be empty")
+    @NotEmpty(message = "Last Name should not be empty")
     private String lastName;
 
     @Column(name = "job_name")
+    @NotNull(message = "JobTitle should not be empty")
     private JobTitle jobTitle;
 
     @Column(name = "gender")
+    @NotNull(message = "gender should not be empty")
+    @NotEmpty(message = "gender should not be empty")
     private String gender;
 
     @Column(name = "date_of_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateOfBirth;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH,CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="department_id")
     private Department department;
 
