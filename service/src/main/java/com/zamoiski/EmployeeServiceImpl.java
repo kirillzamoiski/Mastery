@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDAO employeeDAO;
@@ -20,13 +21,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional
     public List<Employee> findAll() {
         return employeeDAO.findAll();
     }
 
     @Override
-    @Transactional
     public Employee findById(Long theId) {
         Employee employee=employeeDAO.findById(theId);
 
@@ -38,13 +37,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional
     public void save(Employee employee) {
         employeeDAO.save(employee);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long theId) {
         if (employeeDAO.findById(theId)==null){
             throw new NotFoundException("Employee is not found - "+ theId);
