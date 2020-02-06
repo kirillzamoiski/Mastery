@@ -11,15 +11,8 @@ public class DepartmentMapper implements RowMapper<Department> {
     public Department mapRow(ResultSet rs, int i) throws SQLException {
         Department department = new Department();
         department.setId(rs.getLong("id"));
-        department.setName(rs.getString("first_name"));
+        department.setName(rs.getString("department_name"));
         department.setDateOfCreate(rs.getTimestamp("date_of_create").toLocalDateTime());
-//        List<Employee> employees = new EmployeeMapper().mapRow(rs,i);
-//        while (rs.next()){
-//            Employee employee = new EmployeeMapper().mapRow(rs,i);
-//            employee.setDepartment(department);
-//            employees.add(employee);
-//        }
-//        department.setEmployees(employees);
         return department;
     }
 }

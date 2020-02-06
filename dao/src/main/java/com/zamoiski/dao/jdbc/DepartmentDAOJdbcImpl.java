@@ -15,9 +15,9 @@ import java.util.Map;
 @Repository
 public class DepartmentDAOJdbcImpl implements DepartmentDAO {
 
-    private static final String INSERT = "INSERT INTO public.department ( first_name,  date_of_create) " +
-            " values(:first_name,:date_of_create)";
-    private static final String SELECT_ALL = "select * from public.department";
+    private static final String INSERT = "INSERT INTO public.department ( department_name,  date_of_create) " +
+            " values(:department_name,:date_of_create)";
+    private static final String SELECT_ALL = "SELECT * FROM public.department";
     private static final String FIND_BY_ID = "select * from public.department where id = :id";
     private static final String DELETE_BY_ID = "delete from public.department where id = :id";
 
@@ -43,7 +43,7 @@ public class DepartmentDAOJdbcImpl implements DepartmentDAO {
     @Override
     public void save(Department department) {
         Map namedParameters = new HashMap();
-        namedParameters.put("first_name",department.getName());
+        namedParameters.put("department_name",department.getName());
         namedParameters.put("date_of_create",department.getDateOfCreate());
         namedParameterJdbcTemplate.update(INSERT,namedParameters);
     }
