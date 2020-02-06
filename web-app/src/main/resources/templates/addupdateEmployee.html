@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Employee</title>
+    </head>
+    <body>
+        <h3>Employee</h3>
+        <form action="#" th:action="@{/webapp/employees/put/{id}(id=${employee_id})}" th:object="${employee}" method="post">
+            <label for="firstName">First Name</label>
+            <input type="text" th:field="*{firstName}" id="firstName" placeholder="first name">
+            <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</td>
+            <br>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" th:field="*{lastName}" id="lastName" placeholder="last name">
+            <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</td>
+            <br>
+
+            <label for="jobTitle">Job Title</label>
+            <input type="text" th:field="*{jobTitle}" id="jobTitle" placeholder="job title">
+            <td th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}">Job Title Error</td>
+            <br>
+
+            <label for="gender">Gender</label>
+            <input type="text" th:field="*{gender}" id="gender" placeholder="gender">
+            <td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</td>
+            <br>
+
+            <label for="dateOfBirth">Date of Birth</label>
+            <input type="datetime-local" th:field="*{dateOfBirth}" id="dateOfBirth" placeholder="date yyyy-MM-dd HH:mm:ss">
+            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:text="Date format yyyy-MM-dd HH:mm:ss">Date Error</span>
+            <br>
+
+            <label for="department_id">Department</label>
+<!--            <input type="text" name="departmentID" id="department_id" placeholder="department id">-->
+            <td>
+                <select name="departmentID" id="department_id">
+                    <option th:each="department : ${departments}"
+                            th:value="${department.id}"
+                            th:utext="${department.name}"/>
+                </select>
+
+            </td>
+            <br>
+
+            <input type="submit" value="Update Employee">
+        </form>
+        <form th:action="@{/webapp/}">
+            <button type="submit"> Back </button>
+        </form>
+    </body>
+</html>
