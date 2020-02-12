@@ -1,9 +1,12 @@
 package com.zamoiski.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zamoiski.DepartmentService;
 import com.zamoiski.EmployeeRestController;
 import com.zamoiski.EmployeeService;
+import com.zamoiski.model.Department;
 import com.zamoiski.model.Employee;
+import com.zamoiski.model.JobTitle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -46,11 +50,11 @@ class EmployeeRestControllerTest {
     void findAll() throws Exception {
         List<Employee> employees = new ArrayList<>();
 
-        employees.add(new Employee(1L,"Alice","Petrova",75,
-                "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime()));
+        employees.add(new Employee(1L,"Alice","Petrova", JobTitle.HR,
+                "FEMALE", LocalDateTime.now(),null));
 
-        employees.add(new Employee(3L,"Bob","Ivanov",2,
-                "team lead","M",new GregorianCalendar(1979,Calendar.MAY,11).getTime()));
+        employees.add(new Employee(3L,"Bob","Ivanov", JobTitle.TEAM_LEAD,
+                "MALE", LocalDateTime.now(),null));
 
         when(service.findAll()).thenReturn(employees);
 
@@ -66,8 +70,8 @@ class EmployeeRestControllerTest {
 
     @Test
     void findById() throws Exception {
-        Employee employee = new Employee(1L,"Alice","Petrova",75,
-                "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime());
+        Employee employee = new Employee(1L,"Alice","Petrova", JobTitle.HR,
+                "FEMALE", LocalDateTime.now(),null);
 
 
         when(service.findById(anyLong())).thenReturn(employee);
@@ -80,39 +84,6 @@ class EmployeeRestControllerTest {
         verify(service, times(1)).findById(1L);
     }
 
-    @Test
-    void addEmployee() throws Exception {
-        String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Alice","Petrova",75,
-                        "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime()));
-
-        service.save(any(Employee.class));
-
-        mockMvc.perform(
-                post("/api/employees")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(employee)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-
-        verify(service).save(any(Employee.class));
-    }
-
-    @Test
-    void updateEmployee() throws Exception {
-        String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Alice","Petrova",75,
-                "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime()));
-
-        service.save(any(Employee.class));
-
-        mockMvc.perform(
-                put("/api/employees")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(employee)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-
-        verify(service).save(any(Employee.class));
-    }
 
     @Test
     void deleteEmployee() throws Exception {

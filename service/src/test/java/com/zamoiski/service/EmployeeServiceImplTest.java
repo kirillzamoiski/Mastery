@@ -4,6 +4,7 @@ import com.zamoiski.EmployeeServiceImpl;
 import com.zamoiski.dao.EmployeeDAO;
 import com.zamoiski.model.Employee;
 import com.zamoiski.error.NotFoundException;
+import com.zamoiski.model.JobTitle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -37,8 +39,8 @@ class EmployeeServiceImplTest {
     void findAll() {
         List<Employee> employees = new ArrayList<>();
 
-        Employee employee = new Employee("Alice","Petrova",75,
-                "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime());
+        Employee employee = new Employee("Alice","Petrova", JobTitle.HR,
+                "FEMALE", LocalDateTime.now(),null);
 
         employees.add(employee);
 
@@ -54,8 +56,8 @@ class EmployeeServiceImplTest {
     @DisplayName("Test find by id")
     @Test
     void findById() {
-        Employee employee = new Employee(1L,"Alice","Petrova",75,
-                "PM","W",new GregorianCalendar(1989, Calendar.DECEMBER,12).getTime());
+        Employee employee = new Employee(1L,"Alice","Petrova", JobTitle.HR,
+                "FEMALE", LocalDateTime.now(),null);
 
         when(employeeDAO.findById(anyLong())).thenReturn(employee);
 
