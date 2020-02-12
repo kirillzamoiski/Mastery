@@ -84,7 +84,6 @@ class EmployeeRestControllerTest {
         verify(service, times(1)).findById(1L);
     }
 
-
     @Test
     void deleteEmployee() throws Exception {
         service.deleteById(anyLong());
