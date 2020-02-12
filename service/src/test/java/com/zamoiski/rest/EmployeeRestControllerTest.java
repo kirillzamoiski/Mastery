@@ -85,24 +85,24 @@ class EmployeeRestControllerTest {
     }
 
 
-//    @Test
-//    void addEmployee() throws Exception {
-//
-//        Department department = new Department(2L,"FRP",LocalDateTime.now());
-//        String employee = new ObjectMapper().writeValueAsString(new Employee(3L,"Alice","Petrova", JobTitle.HR,
-//                "FEMALE", LocalDateTime.now(),department));
-//
-//        service.save(any(Employee.class));
-//
-//        mockMvc.perform(
-//                post("/api/employees")
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .content(employee)
-//                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-//                .andExpect(status().isOk());
-//
-//        verify(service).save(any(Employee.class));
-//    }
+    @Test
+    void addEmployee() throws Exception {
+
+        Department department = new Department(2L,"FRP",LocalDateTime.now());
+        String employee = new ObjectMapper().writeValueAsString(new Employee(3L,"Alice","Petrova", JobTitle.HR,
+                "FEMALE", LocalDateTime.now(),department));
+
+        service.save(any(Employee.class));
+
+        mockMvc.perform(
+                post("/api/employees")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(employee)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        verify(service).save(any(Employee.class));
+    }
 
 //    @Test
 //    void updateEmployee() throws Exception {
