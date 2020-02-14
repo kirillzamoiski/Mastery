@@ -77,6 +77,7 @@ public class WebAppController {
         employeeServiceWeb.update(null, employee);
         return getEmployees();
     }
+
     @GetMapping(value = "/employees/delete/{id}")
     public ModelAndView deleteEmployee(@PathVariable("id") Long id) {
         LOGGER.info("Delete employee id:" + id);
