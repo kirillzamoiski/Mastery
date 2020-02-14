@@ -78,6 +78,7 @@ public class WebAppController {
         return getEmployees();
     }
 
+
     @GetMapping(value = "/employees/delete/{id}")
     public ModelAndView deleteEmployee(@PathVariable("id") Long id) {
         LOGGER.info("Delete employee id:" + id);
