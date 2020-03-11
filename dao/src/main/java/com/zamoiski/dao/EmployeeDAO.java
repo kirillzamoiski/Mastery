@@ -13,4 +13,6 @@ public interface EmployeeDAO {
      void save(Employee employee);
 
      void deleteById(Long theId);
+
+     void updateTitle(String title, String departmentName);
 }

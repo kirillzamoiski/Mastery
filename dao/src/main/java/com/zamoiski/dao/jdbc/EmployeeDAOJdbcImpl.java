@@ -1,9 +1,12 @@
 package com.zamoiski.dao.jdbc;
 
 import com.zamoiski.dao.EmployeeDAO;
+import com.zamoiski.model.Department;
 import com.zamoiski.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -16,15 +19,24 @@ import java.util.Map;
 
 @Repository
 @Primary
+@PropertySource("classpath:employee-sql.properties")
 public class EmployeeDAOJdbcImpl implements EmployeeDAO {
 
-    private static final String INSERT = "INSERT INTO public.employee( first_name, last_name, job_name, gender, date_of_birth, department_id) \n" +
-        "VALUES (:first_name,:last_name,CAST(:job_name AS positions),:gender,:date_of_birth,:department_id)";
-    private static final String UPDATE = "UPDATE public.employee SET first_name=:first_name, last_name=:last_name, job_name=CAST(:job_name AS positions), " +
-            "gender=:gender, date_of_birth=:date_of_birth, department_id=:department_id WHERE employee_id = :employee_id";
-    private static final String SELECT_ALL = "SELECT * FROM public.employee, public.department where employee.department_id = department.id";
-    private static final String FIND_BY_ID = "SELECT * FROM public.department  JOIN employee ON employee.department_id= department.id WHERE employee.employee_id = :id";
-    private static final String DELETE_BY_ID = "delete from public.employee where employee_id = :id";
+    @Value("${insert}")
+    private String insert;
+    @Value("${update}")
+    private String update;
+    @Value("${selectAll}")
+    private String selectAll;
+    @Value("${findById}")
+    private String findById;
+    @Value("${deleteById}")
+    private String deleteById;
+    @Value("${findIdByName}")
+    private String findIdByName;
+    @Value("${updateTitleById}")
+    private String updateTitleById;
+
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -35,13 +47,13 @@ public class EmployeeDAOJdbcImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> findAll() {
-        return namedParameterJdbcTemplate.query(SELECT_ALL, new EmployeeMapper());
+        return namedParameterJdbcTemplate.query(selectAll, new EmployeeMapper());
     }
 
     @Override
     public Employee findById(Long theId) {
         SqlParameterSource namedParameters = new MapSqlParameterSource("id",Long.valueOf(theId));
-        return namedParameterJdbcTemplate.queryForObject(FIND_BY_ID, namedParameters, new EmployeeMapper());
+        return namedParameterJdbcTemplate.queryForObject(findById, namedParameters, new EmployeeMapper());
     }
 
     @Override
@@ -54,15 +66,25 @@ public class EmployeeDAOJdbcImpl implements EmployeeDAO {
         namedParameters.put("date_of_birth",employee.getDateOfBirth());
         namedParameters.put("department_id",employee.getDepartment().getId());
         if(employee.getId()==null){
-            namedParameterJdbcTemplate.update(INSERT,namedParameters);
+            namedParameterJdbcTemplate.update(insert,namedParameters);
         }
         namedParameters.put("employee_id",employee.getId());
-        namedParameterJdbcTemplate.update(UPDATE,namedParameters);
+        namedParameterJdbcTemplate.update(update,namedParameters);
     }
 
     @Override
     public void deleteById(Long theId) {
-        SqlParameterSource namedParameters = new MapSqlParameterSource("id",Long.valueOf(theId));
-        namedParameterJdbcTemplate.update(DELETE_BY_ID, namedParameters);
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id",theId);
+        namedParameterJdbcTemplate.update(deleteById, namedParameters);
+    }
+
+    @Override
+    public void updateTitle(String title, String departmentName) {
+        SqlParameterSource namedParameters = new MapSqlParameterSource("departmentName",departmentName);
+        Department department = namedParameterJdbcTemplate.queryForObject(findIdByName,namedParameters,new DepartmentMapper());
+        Map namedParameters1 = new HashMap();
+        namedParameters1.put("title",title);
+        namedParameters1.put("id",department.getId());
+        namedParameterJdbcTemplate.update(updateTitleById,namedParameters1);
     }
 }

@@ -40,6 +40,11 @@ public class EmployeeRestController {
         return employee;
     }
 
+    @GetMapping("/employees/{employeeTitle}/{departmentName}")
+    public void updateTitleEmployee(@PathVariable String employeeTitle, @PathVariable String departmentName){
+        employeeService.updateTitle(employeeTitle,departmentName);
+    }
+
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable Long employeeId){
         employeeService.deleteById(employeeId);

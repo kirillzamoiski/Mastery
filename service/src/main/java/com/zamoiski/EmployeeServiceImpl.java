@@ -4,6 +4,7 @@ import com.zamoiski.dao.EmployeeDAO;
 import com.zamoiski.error.NotFoundException;
 import com.zamoiski.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDAO employeeDAO;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeDAO employeeDAO){
@@ -47,5 +50,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NotFoundException("Employee is not found - "+ theId);
         }
         employeeDAO.deleteById(theId);
+    }
+
+    @Override
+    public void updateTitle(String title, String departmentName) {
+        jmsTemplate.convertAndSend("changeTitle","Change title: " + title + " who have department name as " +departmentName);
+        employeeDAO.updateTitle(title,departmentName);
     }
 }

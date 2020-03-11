@@ -60,4 +60,9 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
         theQuery.executeUpdate();
     }
+
+    @Override
+    public void updateTitle(String title, String departmentName) {
+
+    }
 }
