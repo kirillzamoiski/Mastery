@@ -50,7 +50,7 @@ class DepartmentDAOJdbcImplTest {
         departmentDAO.save(department2);
         List<Department> departments = departmentDAO.findAll();
         Department department = departmentDAO.findById(departments.get(1).getId());
-        assertEquals("RPG",department.getName());
+        assertEquals("RPG",department.getDepartment_name());
     }
 
     @Test

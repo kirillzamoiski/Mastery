@@ -43,7 +43,7 @@ public class DepartmentDAOJdbcImpl implements DepartmentDAO {
     @Override
     public void save(Department department) {
         Map namedParameters = new HashMap();
-        namedParameters.put("department_name",department.getName());
+        namedParameters.put("department_name",department.getDepartment_name());
         namedParameters.put("date_of_create",department.getDateOfCreate());
         namedParameterJdbcTemplate.update(INSERT,namedParameters);
     }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestConfiguration.class)
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,scripts = "classpath:insert-value.sql")
 class EmployeeDAOJdbcImplTest {
 
     @Autowired
@@ -32,30 +34,17 @@ class EmployeeDAOJdbcImplTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("TRUNCATE TABLE employee RESTART IDENTITY CASCADE;");
-        jdbcTemplate.execute("TRUNCATE TABLE department RESTART IDENTITY CASCADE;");
+
     }
 
     @Test
     void findAll() {
-        Department departmentOne = new Department(1L,"DTP",LocalDateTime.now());
-        departmentDAO.save(departmentOne);
-        Employee employee1 = new Employee("Alex","Ivanov",JobTitle.TESTER, "MALE",LocalDateTime.now(),departmentOne);
-        Employee employee2 = new Employee("Alice","Ivanova",JobTitle.HR, "FEMALE",LocalDateTime.now(),departmentOne);
-        employeeDAO.save(employee1);
-        employeeDAO.save(employee2);
         List<Employee> employees = employeeDAO.findAll();
         assertEquals(2,employees.size());
     }
 
     @Test
     void findById() {
-        Department departmentOne = new Department(1L,"DTP",LocalDateTime.now());
-        departmentDAO.save(departmentOne);
-        Employee employee1 = new Employee("Alex","Ivanov",JobTitle.TESTER, "MALE",LocalDateTime.now(),departmentOne);
-        Employee employee2 = new Employee("Alice","Ivanova",JobTitle.HR, "FEMALE",LocalDateTime.now(),departmentOne);
-        employeeDAO.save(employee1);
-        employeeDAO.save(employee2);
         List<Employee> employees = employeeDAO.findAll();
         Employee employee = employeeDAO.findById(employees.get(1).getId());
         assertEquals("Alice",employee.getFirstName());
@@ -64,22 +53,16 @@ class EmployeeDAOJdbcImplTest {
 
     @Test
     void save() {
-        Department departmentOne = new Department(1L,"DTP",LocalDateTime.now());
-        departmentDAO.save(departmentOne);
-        Employee employee = new Employee("Alex","Ivanov",JobTitle.TESTER, "MALE",LocalDateTime.now(),departmentOne);
+        Department department = new Department(2L,"DTP",LocalDateTime.now());
+        departmentDAO.save(department);
+        Employee employee = new Employee("Petya","Horris",JobTitle.TEAM_LEAD, "MALE",LocalDateTime.now(),department);
         employeeDAO.save(employee);
         List<Employee> employees = employeeDAO.findAll();
-        assertEquals(1,employees.size());
+        assertEquals(3,employees.size());
     }
 
     @Test
     void deleteById() {
-        Department departmentOne = new Department(1L,"DTP",LocalDateTime.now());
-        departmentDAO.save(departmentOne);
-        Employee employee1 = new Employee("Alex","Ivanov",JobTitle.TESTER, "MALE",LocalDateTime.now(),departmentOne);
-        Employee employee2 = new Employee("Alice","Ivanova",JobTitle.HR, "FEMALE",LocalDateTime.now(),departmentOne);
-        employeeDAO.save(employee1);
-        employeeDAO.save(employee2);
         List<Employee> employees = employeeDAO.findAll();
         employeeDAO.deleteById(employees.get(1).getId());
         employees = employeeDAO.findAll();

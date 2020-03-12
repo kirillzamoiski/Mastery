@@ -22,7 +22,7 @@ import java.util.Map;
 @PropertySource("classpath:employee-sql.properties")
 public class EmployeeDAOJdbcImpl implements EmployeeDAO {
 
-    @Value("${insert}")
+    @Value("${Insert}")
     private String insert;
     @Value("${update}")
     private String update;
@@ -68,8 +68,10 @@ public class EmployeeDAOJdbcImpl implements EmployeeDAO {
         if(employee.getId()==null){
             namedParameterJdbcTemplate.update(insert,namedParameters);
         }
-        namedParameters.put("employee_id",employee.getId());
-        namedParameterJdbcTemplate.update(update,namedParameters);
+        else {
+            namedParameters.put("employee_id",employee.getId());
+            namedParameterJdbcTemplate.update(update,namedParameters);
+        }
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.zamoiski.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,6 +11,7 @@ import javax.validation.constraints.*;
 
 @Entity
 @Table(name="employee")
+@Getter @Setter @NoArgsConstructor
 public class Employee {
 
     @Id
@@ -43,9 +47,6 @@ public class Employee {
     @JoinColumn(name="department_id")
     private Department department;
 
-    public Employee(){ }
-
-
     public Employee(Long id, String firstName, String lastName, JobTitle jobTitle, String gender, LocalDateTime dateOfBirth, Department department) {
         this.id = id;
         this.firstName = firstName;
@@ -62,62 +63,6 @@ public class Employee {
         this.jobTitle = jobTitle;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.department = department;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public JobTitle getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(JobTitle jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
         this.department = department;
     }
 }
