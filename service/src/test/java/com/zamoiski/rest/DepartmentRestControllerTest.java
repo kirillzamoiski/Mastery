@@ -1,10 +1,9 @@
 package com.zamoiski.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zamoiski.EmployeeRestController;
-import com.zamoiski.EmployeeService;
-import com.zamoiski.model.Employee;
-import com.zamoiski.model.JobTitle;
+import com.zamoiski.DepartmentRestController;
+import com.zamoiski.DepartmentService;
+import com.zamoiski.model.Department;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,13 +26,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-class EmployeeRestControllerTest {
+class DepartmentRestControllerTest {
 
     @Mock
-    private EmployeeService service;
+    private DepartmentService service;
 
     @InjectMocks
-    private EmployeeRestController controller;
+    private DepartmentRestController controller;
 
     private MockMvc mockMvc;
 
@@ -44,35 +43,28 @@ class EmployeeRestControllerTest {
 
     @Test
     void findAll() throws Exception {
-        List<Employee> employees = new ArrayList<>();
+        List<Department> departments = new ArrayList<>();
+        departments.add(new Department(1L,"MMO", LocalDateTime.now()));
+        departments.add(new Department(2L,"RPG", LocalDateTime.now()));
 
-        employees.add(new Employee(1L,"Alice","Petrova", JobTitle.HR,
-                "FEMALE", LocalDateTime.now(),null));
+        when(service.findAll()).thenReturn(departments);
 
-        employees.add(new Employee(3L,"Bob","Ivanov", JobTitle.TEAM_LEAD,
-                "MALE", LocalDateTime.now(),null));
-
-        when(service.findAll()).thenReturn(employees);
-
-        mockMvc.perform(get("/api/employees")
+        mockMvc.perform(get("/api/departments")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[1].id",is(3)));
+                .andExpect(jsonPath("$",hasSize(2)));
 
         verify(service, times(1)).findAll();
     }
 
     @Test
     void findById() throws Exception {
-        Employee employee = new Employee(1L,"Alice","Petrova", JobTitle.HR,
-                "FEMALE", LocalDateTime.now(),null);
+        Department department = new Department(1L,"MMO",LocalDateTime.now());
 
+        when(service.findById(anyLong())).thenReturn(department);
 
-        when(service.findById(anyLong())).thenReturn(employee);
-
-        mockMvc.perform(get("/api/employees/1"))
+        mockMvc.perform(get("/api/departments/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id",is(1)));
@@ -80,39 +72,36 @@ class EmployeeRestControllerTest {
         verify(service, times(1)).findById(1L);
     }
 
-
     @Test
     void addEmployee() throws Exception {
-        String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Alice","Petrova", JobTitle.HR,
-                "FEMALE", null,null));
+        String departmnet = new ObjectMapper().writeValueAsString(new Department(1L,"MMO",null));
 
-        service.save(any(Employee.class));
+        service.save(any(Department.class));
 
         mockMvc.perform(
-                post("/api/employees")
+                post("/api/departments")
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(employee)
+                        .content(departmnet)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
-        verify(service).save(any(Employee.class));
+        verify(service).save(any(Department.class));
     }
 
     @Test
     void updateEmployee() throws Exception {
-        String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Alice","Petrova", JobTitle.HR,
-                "FEMALE", null,null));
+        String employee = new ObjectMapper().writeValueAsString(new Department(1L,"MMO",null));
 
-        service.save(any(Employee.class));
+        service.save(any(Department.class));
 
         mockMvc.perform(
-                put("/api/employees")
+                put("/api/departments")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(employee)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
-        verify(service).save(any(Employee.class));
+        verify(service).save(any(Department.class));
     }
 
     @Test
@@ -120,7 +109,7 @@ class EmployeeRestControllerTest {
         service.deleteById(anyLong());
 
         mockMvc.perform(
-                delete("/api/employees/3")
+                delete("/api/departments/3")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

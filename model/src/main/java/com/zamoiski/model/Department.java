@@ -1,20 +1,19 @@
 package com.zamoiski.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="department")
-@Getter @Setter @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class Department {
 
     @Id

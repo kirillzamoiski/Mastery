@@ -2,6 +2,7 @@ package com.zamoiski;
 
 import com.zamoiski.dao.EmployeeDAO;
 import com.zamoiski.error.NotFoundException;
+import com.zamoiski.model.DNameTitle;
 import com.zamoiski.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -15,12 +16,12 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDAO employeeDAO;
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    private final JmsTemplate jmsTemplate;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO){
+    public EmployeeServiceImpl(EmployeeDAO employeeDAO, JmsTemplate jmsTemplate){
         this.employeeDAO=employeeDAO;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
@@ -54,7 +55,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateTitle(String title, String departmentName) {
-        jmsTemplate.convertAndSend("changeTitle","Change title: " + title + " who have department name as " +departmentName);
-        employeeDAO.updateTitle(title,departmentName);
+        jmsTemplate.convertAndSend("changeTitle",new DNameTitle(title,departmentName));
     }
 }
